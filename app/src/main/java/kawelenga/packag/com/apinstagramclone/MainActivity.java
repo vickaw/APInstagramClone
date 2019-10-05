@@ -2,6 +2,7 @@ package kawelenga.packag.com.apinstagramclone;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -22,7 +23,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private EditText username, punchSpeed, kickSpeed;
-    private Button newBoxer;
+    private Button newBoxer, transitionActivity;
     private TextView getData;
     private String outputKickBoxer;
     @Override
@@ -36,6 +37,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         kickSpeed= findViewById(R.id.edtKickSpeed);
         newBoxer = findViewById(R.id.btnKickBoxer);
         getData = findViewById(R.id.txtGetData);
+        transitionActivity = findViewById(R.id.btnTransition);
+
         outputKickBoxer= "";
 
         newBoxer.setOnClickListener(MainActivity.this);
@@ -58,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 });*/
 
                ParseQuery<ParseObject> queryAll = ParseQuery.getQuery("KickBoxer");
+               queryAll.whereGreaterThan("kick_speed",1000);
                queryAll.findInBackground(new FindCallback<ParseObject>() {
                    @Override
                    public void done(List<ParseObject> objects, ParseException e) {
@@ -77,6 +81,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
+
+        transitionActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent= new Intent(MainActivity.this,SignupLoginActivity.class);
+                startActivity(intent);
+
+            }
+        });
     }
 
     @Override
@@ -105,6 +119,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         FancyToast.LENGTH_LONG, FancyToast.ERROR, true).show();
             }
     }
+
+
 
 
 }
